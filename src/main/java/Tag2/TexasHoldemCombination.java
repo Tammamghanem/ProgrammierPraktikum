@@ -43,21 +43,18 @@ public final class TexasHoldemCombination implements Comparable<TexasHoldemCombi
 
         //count flush
         Map<Sign,Integer> flushMap = new HashMap<>();
+        boolean isFlush = false;
+        Sign flushSign = null;
         for (CardDeck52.Card card : list) {
-            if(flushMap.containsKey(card.sign)) {
-            flushMap.put(card.sign,flushMap.getOrDefault(card.sign,0)+1);
+            flushMap.put(card.sign, flushMap.getOrDefault(card.sign, 0) + 1);
         }
-
-    }
-    boolean isFlush = false;
-    Sign flushSign = null;
-    for (Map.Entry<Sign,Integer> entry : flushMap.entrySet()) {
-        if(entry.getValue() > 4){
-            isFlush = true;
-            flushSign = entry.getKey();
-            break;
+        for (Map.Entry<CardDeck52.Card.Sign, Integer> entry : flushMap.entrySet()) {
+            if (entry.getValue() >= 5) {
+                isFlush = true;
+                flushSign = entry.getKey();
+                break;
+            }
         }
-    }
     int straightCounter = 0;
     List<CardDeck52.Card> straightList = new ArrayList<>();
     CardDeck52.Card straightHighCard = null;
@@ -82,7 +79,7 @@ public final class TexasHoldemCombination implements Comparable<TexasHoldemCombi
             straightHighCard=list.get(i+1);
         }
     }
-    boolean isStraight = straightHighCard!=null;
+    boolean isStraight = straightHighCard!=null && straightList.size()>=5;
     //count values
     Map<Integer,Integer> count = new HashMap<>();
         for (CardDeck52.Card card: list){
@@ -94,27 +91,36 @@ public final class TexasHoldemCombination implements Comparable<TexasHoldemCombi
     }
 
     //Royal Flush
-        if (isFlush&&isStraight&&straightHighCard.value==14) {
-        combinationType = CombinationType.RoyalFlush;
-        for (CardDeck52.Card card : list) {
-            if (card.sign==flushSign&&card.value<=10) {
-                combinationCards.add(card);
+        if (isFlush && isStraight) {
+            boolean hasAce = false;
+            for (CardDeck52.Card card : list) {
+                if (card.sign == flushSign && card.value == 14) {
+                    hasAce = true;
+                    break;
+                }
+            }
+            if (hasAce) {
+                combinationType = CombinationType.RoyalFlush;
+                for (CardDeck52.Card card : list) {
+                    if (card.sign == flushSign && card.value <= 10) {
+                        combinationCards.add(card);
+                    }
+                }
+                return;
             }
         }
-        return;
-    }
 
     //StraightFlush
-        if (isFlush&&isStraight) {
-        combinationType = CombinationType.StraightFlush;
-        kicker.add(straightHighCard);
-        for (CardDeck52.Card card : list) {
-            if (card.sign==flushSign&&card.value<=straightHighCard.value&&card.value<=straightHighCard.value-4) {
-                combinationCards.add(card);
+        if (isFlush && isStraight) {
+            combinationType = CombinationType.StraightFlush;
+            kicker.add(straightHighCard);
+            for (CardDeck52.Card card : list) {
+                if (card.sign == flushSign && card.value >= straightHighCard.value - 4 && card.value <= straightHighCard.value) {
+                    combinationCards.add(card);
+                }
             }
+            return;
         }
-        return;
-    }
 
     //Vierling
         if (count.containsValue(4)){

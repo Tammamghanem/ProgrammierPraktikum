@@ -15,11 +15,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TexasHoldemCombinationTest {
 
-    @org.junit.jupiter.api.Test
+    @Test
     void combinations() {
         SignSup s = new SignSup();
+
         //royal flush test
         List<CardDeck52.Card> tableCards = new ArrayList<>();
+
         for (int i = 0; i < 4; i++) {
             tableCards.add(new CardDeck52.Card(14-i, CardDeck52.Card.Sign.Diamonds));
         }
@@ -27,10 +29,10 @@ class TexasHoldemCombinationTest {
 
         TexasHoldemHand hand = new TexasHoldemHand();
         hand.takeDeal(new CardDeck52.Card(10, CardDeck52.Card.Sign.Diamonds));
-        hand.takeDeal(new CardDeck52.Card(11, CardDeck52.Card.Sign.Spades));
+        hand.takeDeal(new CardDeck52.Card(11, CardDeck52.Card.Sign.Diamonds));
 
         TexasHoldemCombination combination = new TexasHoldemCombination(tableCards, hand);
-        assertEquals(TexasHoldemCombination.CombinationType.RoyalFlush, combination.combinationType);
+        assertEquals(TexasHoldemCombination.CombinationType.RoyalFlush, combination.combinationType);   //royal flush !!!!
 
         //straight flush test
         tableCards = new ArrayList<>();
@@ -42,7 +44,8 @@ class TexasHoldemCombinationTest {
         hand.takeDeal(new CardDeck52.Card(8, CardDeck52.Card.Sign.Diamonds));
         hand.takeDeal(new CardDeck52.Card(13, CardDeck52.Card.Sign.Hearts));
         combination = new TexasHoldemCombination(tableCards, hand);
-        assertEquals(TexasHoldemCombination.CombinationType.StraightFlush, combination.combinationType);
+        assertEquals(TexasHoldemCombination.CombinationType.StraightFlush, combination.combinationType); //straight flush !!!!!!
+
 
         //four of a kind test
         tableCards = new ArrayList<>();
@@ -81,7 +84,7 @@ class TexasHoldemCombinationTest {
         hand.takeDeal(new CardDeck52.Card(8, CardDeck52.Card.Sign.Diamonds));
         hand.takeDeal(new CardDeck52.Card(13, CardDeck52.Card.Sign.Hearts));
         combination = new TexasHoldemCombination(tableCards, hand);
-        assertEquals(TexasHoldemCombination.CombinationType.Flush, combination.combinationType);
+        assertEquals(TexasHoldemCombination.CombinationType.Flush, combination.combinationType); //flush !!!!!!
 
         //straight test
         tableCards = new ArrayList<>();
@@ -109,6 +112,7 @@ class TexasHoldemCombinationTest {
         combination = new TexasHoldemCombination(tableCards, hand);
         assertEquals(TexasHoldemCombination.CombinationType.ThreeOfAKind, combination.combinationType);
 
+
         //two pair test
         tableCards = new ArrayList<>();
         for (int i = 0; i < 2; i++) {
@@ -134,6 +138,7 @@ class TexasHoldemCombinationTest {
         hand.takeDeal(new CardDeck52.Card(13, s.get()));
         combination = new TexasHoldemCombination(tableCards, hand);
         assertEquals(TexasHoldemCombination.CombinationType.OnePair, combination.combinationType);
+
 
         //high card test
         tableCards = new ArrayList<>();
@@ -167,6 +172,7 @@ class TexasHoldemCombinationTest {
                 .forEach(x-> System.out.println(x.getKey() + ": " +String.format ("%.3f",(double)x.getValue()/number*100)+"%"));
     }
 }
+
 
 class SignSup implements Supplier<CardDeck52.Card.Sign> {
     int i=0;
