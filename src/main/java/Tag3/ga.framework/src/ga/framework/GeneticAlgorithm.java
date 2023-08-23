@@ -1,13 +1,24 @@
 package ga.framework;
+
+import ga.framework.GeneticAlgorithm;
+import ga.framework.TopKSurvival;
+import ga.framework.TournamentSelection;
+import ga.framework.model.Solution;
+import java.util.Comparator;
+import java.util.List;
 import ga.framework.model.Problem;
 import ga.framework.model.Solution;
-import ga.framework.model.NoSolutionException;
-import ga.framework.operators.*;
-
+import ga.framework.operators.EvolutionaryOperator;
+import ga.framework.operators.EvolutionException;
+import ga.framework.operators.FitnessEvaluator;
+import ga.framework.operators.SelectionOperator;
+import ga.framework.operators.SurvivalException;
+import ga.framework.operators.SurvivalOperator;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Random;
+import ga.framework.model.NoSolutionException;
+
 
 public class GeneticAlgorithm {
     Problem problem;
@@ -18,7 +29,7 @@ public class GeneticAlgorithm {
     SelectionOperator selectionOperator;
     int maxIterations;
 
-    public GeneticAlgorithm() {
+    public GeneticAlgorithm(TopKSurvival topKSurvival) {
         evolutionaryOperator = new ArrayList<>();
     }
 
@@ -110,7 +121,7 @@ public class GeneticAlgorithm {
 
 
 
-    public List<Solution> RunOptimization() {
+    public List<Solution> runOptimization() {
         List<Solution> population = new ArrayList<>();
         //create initial population
         for (int i = 0; i < populationSize; i++) {
@@ -150,7 +161,7 @@ public class GeneticAlgorithm {
     }
 
     public static void main(String[] args) {
-        GeneticAlgorithm ga = new GeneticAlgorithm();
+        GeneticAlgorithm ga = new GeneticAlgorithm(new TopKSurvival(4));
         List<Solution> solutions = (List<Solution>) ga.WithProblem(null)
                 .withPopulationSize(10)
                 .withEvolutionaryOperator(new LinkedList<>())
@@ -159,7 +170,7 @@ public class GeneticAlgorithm {
                 .withSelectionOperator(null)
                 .withMaxIterations(20)
                 .build();
-        solutions = ga.RunOptimization();
+        solutions = ga.runOptimization();
     }
 }
 
