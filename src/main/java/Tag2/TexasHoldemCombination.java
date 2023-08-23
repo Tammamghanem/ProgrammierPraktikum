@@ -42,6 +42,8 @@ public final class TexasHoldemCombination implements Comparable<TexasHoldemCombi
         list.sort(( a, b)-> a.value-b.value);
 
         //count flush
+        //count straight
+
         Map<Sign,Integer> flushMap = new HashMap<>();
         boolean isFlush = false;
         Sign flushSign = null;
@@ -91,7 +93,7 @@ public final class TexasHoldemCombination implements Comparable<TexasHoldemCombi
     }
 
     //Royal Flush
-        if (isFlush && isStraight) {
+        if (isFlush && isStraight) {      //TODO : check if royal flush is possible
             boolean hasAce = false;
             for (CardDeck52.Card card : list) {
                 if (card.sign == flushSign && card.value == 14) {
@@ -311,14 +313,11 @@ public final class TexasHoldemCombination implements Comparable<TexasHoldemCombi
     }
 
     // c)
+
     private static class CombSup implements Supplier{
         CardDeck52 deck = new CardDeck52();
         Random r = new Random();
         int[] sizes = {/*0,3,4,*/5};
-        /**
-         * Gets a result.
-         * @return a result
-         */
         @Override
         public Object get() {
             int size = sizes[r.nextInt(sizes.length)];

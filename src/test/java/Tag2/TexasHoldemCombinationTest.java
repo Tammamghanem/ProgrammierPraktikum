@@ -29,7 +29,7 @@ class TexasHoldemCombinationTest {
 
         TexasHoldemHand hand = new TexasHoldemHand();
         hand.takeDeal(new CardDeck52.Card(10, CardDeck52.Card.Sign.Diamonds));
-        hand.takeDeal(new CardDeck52.Card(11, CardDeck52.Card.Sign.Diamonds));
+        hand.takeDeal(new CardDeck52.Card(9, CardDeck52.Card.Sign.Diamonds));
 
         TexasHoldemCombination combination = new TexasHoldemCombination(tableCards, hand);
         assertEquals(TexasHoldemCombination.CombinationType.RoyalFlush, combination.combinationType);   //royal flush !!!!
