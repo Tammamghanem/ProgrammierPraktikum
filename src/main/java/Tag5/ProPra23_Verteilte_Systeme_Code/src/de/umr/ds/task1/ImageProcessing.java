@@ -99,6 +99,18 @@ public class ImageProcessing {
 		return convertToBufferedImage(result);
 	}
 
+	/*
+	private static BufferedImage filter(BufferedImage img, Kernel kernel) {
+        int padding = kernel.getWidth() / 2; // Padding size is based on kernel width
+
+        // Create a padded image
+        BufferedImage paddedImage = new BufferedImage(img.getWidth() + 2 * padding, img.getHeight() + 2 * padding, BufferedImage.TYPE_INT_RGB);
+        paddedImage.getGraphics().drawImage(img, padding, padding, null);
+
+        ConvolveOp convolveOp = new ConvolveOp(kernel);
+        return convolveOp.filter(paddedImage, null);
+    }
+   */
 
 	// TODO Task 1g)
 
