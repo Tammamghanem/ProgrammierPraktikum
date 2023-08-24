@@ -10,6 +10,12 @@ import java.util.Random;
 public class KnapsackMutation implements ga.framework.operators.EvolutionaryOperator{
     Random r = new Random();
 
+    /**
+     * This method is used to mutate a solution.
+     * @param solution
+     * @return
+     * @throws EvolutionException
+     */
     @Override
     public Solution evolve(Solution solution) throws EvolutionException {
         KnapsackSolution parent = (KnapsackSolution) solution;
@@ -26,7 +32,15 @@ public class KnapsackMutation implements ga.framework.operators.EvolutionaryOper
         }
         return child;
     }
+    /**
+     * This class is used to remove an item from the knapsack.
+     */
     class afs{
+        /**
+         * This method removes an item from the knapsack.
+         * @param solution
+         * @return
+         */
         private static boolean remove(KnapsackSolution solution) {
             PermutationVisit pv = new PermutationVisit(solution.isInside.length);
             for (int i = 0; i < solution.isInside.length; i++) {
@@ -41,6 +55,11 @@ public class KnapsackMutation implements ga.framework.operators.EvolutionaryOper
             return false;
         }}
 
+    /**
+     * This method adds an item to the knapsack.
+     * @param solution
+     * @return
+     */
     private boolean add(KnapsackSolution solution){
         PermutationVisit pv = new PermutationVisit(solution.isInside.length);
         for (int i = 0; i <solution.isInside.length ; i++) {
@@ -61,12 +80,21 @@ class PermutationVisit{
     List<Integer> indices;
     Random r = new Random();
 
+    /**
+     * This method is used to visit all indices of a permutation in a random order.
+     * @param rangeLimit
+     */
+
     public PermutationVisit(int rangeLimit){
         this.indices = new ArrayList<>();
         for (int i = 0; i < rangeLimit; i++) {
             indices.add(i);
         }
     }
+    /**
+     * This method is used to get the next index.
+     * @return
+     */
 
     public int next(){
         if (indices.size()==0){

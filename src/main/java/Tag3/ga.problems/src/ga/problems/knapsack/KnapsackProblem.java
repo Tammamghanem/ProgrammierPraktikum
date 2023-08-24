@@ -22,6 +22,11 @@ public class KnapsackProblem implements ga.framework.model.Problem{
     }
 
     @Override
+    /**
+     * This method creates a new solution.
+     * @return
+     * @throws NoSolutionException
+     */
     public Solution createNewSolution() throws NoSolutionException {
         KnapsackSolution solution = new KnapsackSolution(this, weights, values, capacity);
         boolean controller = true;

@@ -5,6 +5,9 @@ import ga.framework.model.Problem;
 import ga.framework.model.Solution;
 
 
+/**
+ * This class is used to create a new solution.
+ */
 public class KnapsackSolution extends ga.framework.model.Solution {
     int[] items;
     int[] values;
@@ -13,6 +16,13 @@ public class KnapsackSolution extends ga.framework.model.Solution {
     int weight;
     int value;
 
+    /**
+     * This method is used to create a new solution.
+     * @param problem
+     * @param items
+     * @param values
+     * @param capacity
+     */
     public KnapsackSolution(Problem problem, int[] items,int[] values, int capacity) {
         super(problem);
         this.items = items.clone();
@@ -25,6 +35,10 @@ public class KnapsackSolution extends ga.framework.model.Solution {
         this.weight = 0;
         this.value = 0;
     }
+    /**
+     * This method is used to create a copy of a solution.
+     * @return
+     */
 
     public KnapsackSolution copyOf(){
         KnapsackSolution copy = new KnapsackSolution(this.getProblem(), this.items,this.values, this.capacity);
