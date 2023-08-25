@@ -8,6 +8,9 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import java.awt.image.WritableRaster;
 
+import static Tag5.ProPra23_Verteilte_Systeme_Code.src.de.umr.ds.task1.Kernels.BoxBlur3x3;
+import static Tag5.ProPra23_Verteilte_Systeme_Code.src.de.umr.ds.task1.Kernels.Relief;
+
 public class ImageProcessing {
 
 	/**
@@ -79,7 +82,7 @@ public class ImageProcessing {
 			File file = new File(path);
 			ImageIO.write(img, "jpg", file);
 		} catch (IOException e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 
@@ -117,10 +120,12 @@ public class ImageProcessing {
 try {
 			// Load image
 			BufferedImage img = loadImage("C:\\Users\\tamma\\Desktop\\ProgramierPraktikum\\src\\main\\java\\Tag5\\ProPra23_Verteilte_Systeme_Code\\example.jpg");
-			int [][] imgGray = convertToGrayScaleArray(img);
-			BufferedImage imgBuffered = convertToBufferedImage(imgGray);
+			filter(convertToBufferedImage(convertToGrayScaleArray(img)), BoxBlur3x3());
+
+
 			// Save image
-			saveImage(imgBuffered, "C:\\Users\\tamma\\Desktop\\ProgramierPraktikum\\src\\main\\java\\Tag5\\ProPra23_Verteilte_Systeme_Code\\exampleFiltered.jpg");
+			saveImage(filter(convertToBufferedImage(convertToGrayScaleArray(img)), BoxBlur3x3()), "C:\\Users\\tamma\\Desktop\\ProgramierPraktikum\\src\\main\\java\\Tag5\\ProPra23_Verteilte_Systeme_Code\\exampleFiltered.jpg");
+
 		}
 		catch (IOException e) {
 			e.printStackTrace();

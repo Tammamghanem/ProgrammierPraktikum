@@ -53,7 +53,7 @@ public class Kernel {
         int[][] result = new int[img.length - a][img[0].length - a];
 
         for (int x = 0; x < result.length; x++) {
-            for (int y = 0; y < result.length; y++) {
+            for (int y = 0; y < result[0].length; y++) {
                 int value = 0;
                 for (int i = 0; i < n; i++) {
                     for (int j = 0; j < n; j++) {
