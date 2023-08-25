@@ -16,27 +16,21 @@ public class TextClient {
 		System.out.println("Client : input Text");
 		BufferedReader readerConsole = new BufferedReader(new InputStreamReader(System.in));
 		try {
-			socket = new Socket(URL, PORT);
-			PrintWriter pw = new PrintWriter(socket.getOutputStream());
-			pw.println(readerConsole.readLine());
-			pw.flush();
+			while (true) {
+				socket = new Socket(URL, PORT);
+				PrintWriter pw = new PrintWriter(socket.getOutputStream());
+				pw.println(readerConsole.readLine());
+				pw.flush();
 
-			InputStreamReader isr = new InputStreamReader(socket.getInputStream());
-			BufferedReader reader = new BufferedReader(isr);
+				InputStreamReader isr = new InputStreamReader(socket.getInputStream());
+				BufferedReader reader = new BufferedReader(isr);
 
-			System.out.println("Client : " + reader.readLine());
+				System.out.println("Client : " + reader.readLine());
 
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-		finally {
-			try {
-				socket.close();
 			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
+		}
+	catch (Exception e) {
+			System.out.println(e);
 		}
 	}
 }

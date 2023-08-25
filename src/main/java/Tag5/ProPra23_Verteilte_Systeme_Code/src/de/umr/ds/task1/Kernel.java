@@ -39,22 +39,35 @@ public class Kernel {
 	 * @param img A single-channel image
 	 * @return The convolved image
 	 */
+
+
 	public int[][] convolve(int[][] img) {
-		int[][] result = new int[img.length][img[0].length];
-		int offset = (this.width - 1) / 2;
-		for (int x = offset; x < img.length - offset; x++) {
-			for (int y = offset; y < img[0].length - offset; y++) {
-				double sum = 0;
-				for (int i = 0; i < this.width; i++) {
-					for (int j = 0; j < this.height; j++) {
-						sum += img[x - offset + i][y - offset + j] * this.k[i][j];
-					}
-				}
-				result[x][y] = (int) Math.round(sum);
-			}
-		}
-		return result;
-	}
+
+        // TODO Task 1d)
+
+
+        int n = getHeight();
+
+        int a = n - 1;
+
+        int[][] result = new int[img.length - a][img[0].length - a];
+
+        for (int x = 0; x < result.length; x++) {
+            for (int y = 0; y < result.length; y++) {
+                int value = 0;
+                for (int i = 0; i < n; i++) {
+                    for (int j = 0; j < n; j++) {
+                        value = (int) (img[x + a - i][y + a - j] * k[i][j] + value);
+                    }
+                }
+                result[x][y] = value;
+            }
+        }
+        return result;
+
+
+    }
+
 
 
 	public int getHeight() {

@@ -21,8 +21,7 @@ public class ImageProcessing {
 		try {
 			File file = new File(path);
 			img = ImageIO.read(file);
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			System.out.println(e);
 		}
 		return img;
@@ -30,17 +29,16 @@ public class ImageProcessing {
 
 	/**
 	 * Converts the input RGB image to a single-channel gray scale array.
-	 * 
+	 *
 	 * @param img The input RGB image
 	 * @return A 2-D array with intensities
 	 */
 	private static int[][] convertToGrayScaleArray(BufferedImage img) {
 		int[][] grey2DArr = new int[img.getWidth()][img.getHeight()];
 
-		for(int x = 0; x < img.getWidth(); x++) {
-			for(int y = 0; y < img.getHeight(); y++) {
+		for (int x = 0; x < img.getWidth(); x++) {
+			for (int y = 0; y < img.getHeight(); y++) {
 				Color rgb = new Color(img.getRGB(x, y));
-				int alpha = 255;
 				int r = rgb.getRed();
 				int g = rgb.getGreen();
 				int b = rgb.getBlue();
@@ -48,76 +46,86 @@ public class ImageProcessing {
 				grey2DArr[x][y] = grey;
 			}
 		}
-		
+
 		return grey2DArr;
 	}
 
 	/**
 	 * Converts a single-channel (gray scale) array to an RGB image.
-	 * 
+	 *
 	 * @param img The input image array
 	 * @return BufferedImage
 	 */
 	private static BufferedImage convertToBufferedImage(int[][] img) {
 		BufferedImage bufferedImage = new BufferedImage(img.length, img[0].length, BufferedImage.TYPE_INT_RGB);
-		for(int x = 0; x < img.length; x++) {
-			for(int y = 0; y < img[0].length; y++) {
+		for (int x = 0; x < img.length; x++) {
+			for (int y = 0; y < img[0].length; y++) {
 				int rgb = img[x][y] << 16 | img[x][y] << 8 | img[x][y];
 				bufferedImage.setRGB(x, y, rgb);
 			}
 		}
-		
+
 		return bufferedImage;
 	}
 
 	/**
 	 * Saves an image to the given file path
 	 *
-	 * @param img The RGB image
+	 * @param img  The RGB image
 	 * @param path The path to save the image to
 	 */
 	private static void saveImage(BufferedImage img, String path) throws IOException {
 		try {
 			File file = new File(path);
 			ImageIO.write(img, "jpg", file);
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			System.out.println(e);
 		}
 	}
 
 	/**
 	 * Converts input image to gray scale and applies the kernel.
-	 * 
-	 * @param img The RGB input image
+	 *
+	 * @param img    The RGB input image
 	 * @param kernel The kernel to apply
 	 * @return The convolved gray-scale image
 	 */
-	private static BufferedImage filter(BufferedImage img, Kernel kernel) {
+/*	private static BufferedImage filter(BufferedImage img, Kernel kernel) {
 		int[][] grey2DArr = convertToGrayScaleArray(img);
 		int[][] result = kernel.convolve(grey2DArr);
 		return convertToBufferedImage(result);
 	}
-
-	/*
+*/
 	private static BufferedImage filter(BufferedImage img, Kernel kernel) {
-        int padding = kernel.getWidth() / 2; // Padding size is based on kernel width
+		int padding = kernel.getWidth() / 2; // Padding size is based on kernel width
 
-        // Create a padded image
-        BufferedImage paddedImage = new BufferedImage(img.getWidth() + 2 * padding, img.getHeight() + 2 * padding, BufferedImage.TYPE_INT_RGB);
-        paddedImage.getGraphics().drawImage(img, padding, padding, null);
+		// Create a padded image
+		BufferedImage paddedImage = new BufferedImage(img.getWidth() + 2 * padding, img.getHeight() + 2 * padding,
+				BufferedImage.TYPE_INT_RGB);
+		paddedImage.getGraphics().drawImage(img, padding, padding, null);
 
-        ConvolveOp convolveOp = new ConvolveOp(kernel);
-        return convolveOp.filter(paddedImage, null);
-    }
-   */
+		int[][] grey2DArr = convertToGrayScaleArray(paddedImage);
+		int[][] result = kernel.convolve(grey2DArr);
+		return convertToBufferedImage(result);
+	}
+
 
 	// TODO Task 1g)
 
 
 	public static void main(String[] args) {
+try {
+			// Load image
+			BufferedImage img = loadImage("C:\\Users\\tamma\\Desktop\\ProgramierPraktikum\\src\\main\\java\\Tag5\\ProPra23_Verteilte_Systeme_Code\\example.jpg");
+			int [][] imgGray = convertToGrayScaleArray(img);
+			BufferedImage imgBuffered = convertToBufferedImage(imgGray);
+			// Save image
+			saveImage(imgBuffered, "C:\\Users\\tamma\\Desktop\\ProgramierPraktikum\\src\\main\\java\\Tag5\\ProPra23_Verteilte_Systeme_Code\\exampleFiltered.jpg");
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
 
-		// TODO
 
 	}
 

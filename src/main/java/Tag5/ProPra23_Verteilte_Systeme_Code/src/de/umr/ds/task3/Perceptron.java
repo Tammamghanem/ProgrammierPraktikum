@@ -1,4 +1,4 @@
-package de.umr.ds.task3;
+package Tag5.ProPra23_Verteilte_Systeme_Code.src.de.umr.ds.task3;
 
 /**
  * A Perceptron holds weights and bias and can be applied to a data vector to
