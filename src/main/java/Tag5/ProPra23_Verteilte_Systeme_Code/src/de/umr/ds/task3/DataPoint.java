@@ -19,4 +19,8 @@ public class DataPoint extends Vector {
 		return label;
 	}
 
+	public Vector getInput() {
+		return this;
+	}
+
 }

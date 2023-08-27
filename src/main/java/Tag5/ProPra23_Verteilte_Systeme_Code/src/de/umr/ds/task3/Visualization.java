@@ -55,17 +55,18 @@ public class Visualization extends JFrame {
 	 * @param b     The bias of the perceptron
 	 * @param epoch The current epoch
 	 */
-	public void update(Vector w, double b, int epoch) {
-		this.w = w;
-		this.b = b;
-		this.epoch = epoch;
+	public static void update(Vector w, double b, int epoch) {
+Visualization v = new Visualization(new Dataset(1000), w, b);
+		v.w = w;
+		v.b = b;
+		v.epoch = epoch;
 		// wait
 		try {
 			TimeUnit.MILLISECONDS.sleep(delay);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		this.repaint();
+		v.repaint();
 	}
 
 	private class PerceptronPlot extends JPanel {

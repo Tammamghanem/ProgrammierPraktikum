@@ -7,9 +7,10 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import java.awt.image.WritableRaster;
+import java.io.File;
+import java.io.IOException;
 
-import static Tag5.ProPra23_Verteilte_Systeme_Code.src.de.umr.ds.task1.Kernels.BoxBlur3x3;
-import static Tag5.ProPra23_Verteilte_Systeme_Code.src.de.umr.ds.task1.Kernels.Relief;
+import static Tag5.ProPra23_Verteilte_Systeme_Code.src.de.umr.ds.task1.Kernels.*;
 
 public class ImageProcessing {
 
@@ -119,12 +120,13 @@ public class ImageProcessing {
 	public static void main(String[] args) {
 try {
 			// Load image
-			BufferedImage img = loadImage("C:\\Users\\tamma\\Desktop\\ProgramierPraktikum\\src\\main\\java\\Tag5\\ProPra23_Verteilte_Systeme_Code\\example.jpg");
-			filter(convertToBufferedImage(convertToGrayScaleArray(img)), BoxBlur3x3());
+			BufferedImage img = loadImage("C:\\Users\\tamma\\Desktop\\ProgrammierPraktikum\\src\\main\\java\\Tag5\\ProPra23_Verteilte_Systeme_Code\\example.jpg");
+			filter(convertToBufferedImage(convertToGrayScaleArray(img)), Sharpen());
 
 
 			// Save image
-			saveImage(filter(convertToBufferedImage(convertToGrayScaleArray(img)), BoxBlur3x3()), "C:\\Users\\tamma\\Desktop\\ProgramierPraktikum\\src\\main\\java\\Tag5\\ProPra23_Verteilte_Systeme_Code\\exampleFiltered.jpg");
+
+			saveImage(filter(convertToBufferedImage(convertToGrayScaleArray(img)), Sharpen()), "C:\\Users\\tamma\\Desktop\\ProgrammierPraktikum\\src\\main\\java\\Tag5\\ProPra23_Verteilte_Systeme_Code\\exampleFiltered.jpg");
 
 		}
 		catch (IOException e) {

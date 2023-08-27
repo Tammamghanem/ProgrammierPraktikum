@@ -40,10 +40,11 @@ public class Vector {
 	 * @return The dot product between the two vectors
 	 */
 	public double dot(Vector v) {
+		double res = 0;
+		for (int i = 0; i < p.length; i++){
+			res += p[i] * v.p[i];}
+		return res;
 
-		// TODO Task 3a)
-
-		return 0;
 	}
 
 	/**
@@ -54,9 +55,12 @@ public class Vector {
 	 */
 	public Vector add(Vector v) {
 
-		// TODO Task 3a)
+		double[] res = new double[p.length];
+		for (int i = 0; i < p.length; i++){
+			res[i] = p[i] + v.p[i];
+		}
 
-		return null;
+		return new Vector(res);
 	}
 
 	/**
@@ -67,9 +71,12 @@ public class Vector {
 	 */
 	public Vector mult(double s) {
 
-		// TODO Task 3a)
+		double[] res = new double[p.length];
+		for (int i = 0; i < p.length; i++){
+			res[i] = p[i] * s;
+		}
 
-		return null;
+		return new Vector(res);
 	}
 
 }

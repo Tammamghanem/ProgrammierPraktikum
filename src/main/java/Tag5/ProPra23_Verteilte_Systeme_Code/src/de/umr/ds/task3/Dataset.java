@@ -30,4 +30,8 @@ public class Dataset extends ArrayList<DataPoint> {
 			this.add(new DataPoint(label, x, y));
 		}
 	}
+
+	public ArrayList<DataPoint> getDataPoints() {
+		return this;
+	}
 }
