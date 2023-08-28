@@ -79,4 +79,7 @@ public class Vector {
 		return new Vector(res);
 	}
 
+	public int getDimension() {
+		return p.length;
+	}
 }

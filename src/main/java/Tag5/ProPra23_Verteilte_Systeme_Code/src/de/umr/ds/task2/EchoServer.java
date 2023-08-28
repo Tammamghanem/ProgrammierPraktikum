@@ -44,15 +44,17 @@ public class EchoServer implements Runnable{
 					@Override
 					public void run() {
 						try {
-							//Server output
-							OutputStream outputStream = finalSocket.getOutputStream();
-							OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream);
-							PrintWriter printWriter = new PrintWriter(outputStreamWriter);
+
 
 							//Server input
 							InputStream inputStream = finalSocket.getInputStream();
 							InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
 							BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+							//Server output
+							OutputStream outputStream = finalSocket.getOutputStream();
+							OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream);
+							PrintWriter printWriter = new PrintWriter(outputStreamWriter);
 
 							String input;
 							String output;

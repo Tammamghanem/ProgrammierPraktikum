@@ -7,7 +7,9 @@ import Tag5.ProPra23_Verteilte_Systeme_Code.src.de.umr.ds.task3.Visualization;
 public class Training {
 
 	private static final double alpha = 0.05; // learning rate
-	private static final int epochs = 100; // number of epochs
+	private static final int epochs = 50; // number of epochs
+
+
 
 	/**
 	 * A perceptron is trained on a dataset. After each epoch the perceptron's
@@ -20,9 +22,13 @@ public class Training {
 		ArrayList<DataPoint> dataPoints = dataset.getDataPoints();
 		int dataSize = dataPoints.size();
 
+		Visualization visualization = new Visualization(dataset, perceptron.getWeights(), perceptron.getBias());
+
+		Perceptron bestModel = new Perceptron(perceptron.getWeights().getDimension());
+		double bestAccuracy = 0.0;
+
 		for (int epoch = 0; epoch < epochs; epoch++) {
 			Collections.shuffle(dataPoints);
-
 			for (DataPoint dataPoint : dataPoints) {
 				Vector input = dataPoint.getInput();
 				int target = dataPoint.getLabel();
@@ -30,7 +36,7 @@ public class Training {
 
 				if (prediction != target) {
 					int delta = target - prediction;
-					Vector weightDelta = input.mult(alpha * delta);
+					Vector weightDelta = input.mult(delta * alpha);
 					double biasDelta = alpha * delta;
 
 					perceptron.updateWeights(weightDelta);
@@ -38,10 +44,21 @@ public class Training {
 				}
 			}
 			double accuracy = Evaluation.accuracy(perceptron, dataset);
+
+			if (accuracy > bestAccuracy) {
+				bestAccuracy = accuracy;
+				bestModel.updateWeights(perceptron.getWeights());
+				bestModel.updateBias(perceptron.getBias());
+			}
 			System.out.println("Epoch " + epoch + ": accuracy = " + accuracy);
 
-			Visualization.update(perceptron.getWeights(), perceptron.getBias(), epoch);
+			visualization.update(perceptron.getWeights(), perceptron.getBias(), epoch);
+
 		}
+		System.out.println("Best accuracy: " + bestAccuracy);
+		perceptron.updateWeights(bestModel.getWeights());
+		perceptron.updateBias(bestModel.getBias());
+
 	}
 
 
