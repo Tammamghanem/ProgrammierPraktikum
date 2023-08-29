@@ -22,8 +22,6 @@ public class Tokenizer {
 			entry("jmp", TokenType.KEYWORD),
 			entry("then", TokenType.KEYWORD),
 			entry("else", TokenType.KEYWORD),
-			entry("true", TokenType.BOOLEAN),
-			entry("false", TokenType.BOOLEAN),
 			entry("linebreak", TokenType.LINEBREAK),
 			entry("circle", TokenType.SHAPETYPE),
 			entry("quad", TokenType.SHAPETYPE),
@@ -56,8 +54,7 @@ public class Tokenizer {
 		program = program.replace("\n", " linebreak ");
 		String[] snippets = program.trim().split("\\s+");
 		System.out.println("\n\n\n");
-		for (int i = 0; i < snippets.length; i++) {
-			String snippet = snippets[i];
+		for (String snippet : snippets) {
 			if (tokenMap.keySet().contains(snippet)) {
 				tokens.add(new Token(snippet, tokenMap.get(snippet)));
 			}
@@ -82,32 +79,51 @@ public class Tokenizer {
 				else if (LAB.matcher(snippet).matches()) {
 					tokens.add(new Token(snippet, TokenType.LABEL));
 
+					// BOOLEANS
+				} else if (snippet.equals("∧")) {
+					tokens.add(new Token("&&", TokenType.SYMBOLCPD));
 				}
-				// Variable assignment
-				else
-				if (snippet.equals("var")) {
-					if (i+3 < snippets.length && snippets[i+2].equals("=")){
-						String varName = snippets[i+1];
-						String varValue = snippets[i+3];
-						tokens.add(new Token("var", TokenType.KEYWORD));
-						tokens.add(new Token(varName, TokenType.IDENTIFIER));
-						tokens.add(new Token("=", TokenType.CHARSPECIAL));
-						tokens.add(new Token(varValue, TokenType.NUMBER));
-						i += 3;
-					}
-					// Check for arithmetic operators and numbers
-					else if (snippet.matches("[+-]?\\d+")) {
-						tokens.add(new Token(snippet, TokenType.NUMBER));
-					}
-					else if (snippet.matches("[+\\-*/]")) {
-						tokens.add(new Token(snippet, TokenType.ARITHMETIC_OPERATOR));
-					} else {
-						tokens.add(new Token(snippet, TokenType.UNKNOWN));
-						System.out.println("unknown token added");
-					}
+				else if (snippet.equals("∨")) {
+					tokens.add(new Token("||", TokenType.SYMBOLCPD));
+				}
+				else if (snippet.equals("¬")) {
+					tokens.add(new Token("!", TokenType.CHARSPECIAL));
+				}
+				else if (snippet.equals(">")) {
+					tokens.add(new Token(">", TokenType.CHARSPECIAL));
+				}
+				else if (snippet.equals("<")) {
+					tokens.add(new Token("<", TokenType.CHARSPECIAL));
+				}
+				else if (snippet.equals("=")) {
+					tokens.add(new Token("=", TokenType.CHARSPECIAL));
+
+					// Check for control flow keywords
+				}
+				else if (snippet.equals("if")) {
+					tokens.add(new Token("IF", TokenType.KEYWORD));
+				} else if (snippet.equals("then")) {
+					tokens.add(new Token("THEN", TokenType.KEYWORD));
+				} else if (snippet.equals("else")) {
+					tokens.add(new Token("ELSE", TokenType.KEYWORD));
+				} else if (snippet.equals("fi")) {
+					tokens.add(new Token("FI", TokenType.KEYWORD));
+
+					// Check for jump keyword
+				} else if (snippet.equals("jmp")) {
+					tokens.add(new Token("JMP", TokenType.KEYWORD));
+			} else if (snippet.endsWith(":")) {
+					tokens.add(new Token(snippet, TokenType.LABEL));
+				}
+
+				else {
+					tokens.add(new Token(snippet, TokenType.UNKNOWN));
+					System.out.println("unknown token added");
+				}
+
 			}
 		}
-	}
 		return tokens;
 	}
+
 }

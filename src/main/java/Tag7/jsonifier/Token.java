@@ -1,6 +1,4 @@
 package Tag7.jsonifier;
-import java.util.List;
-
 
 public class Token {
 	
@@ -28,9 +26,5 @@ public class Token {
     ///////
     public Boolean assertType(TokenType type) {
     	return (this.type.equals(type));
-    }
-
-    public List<Object> getArguments() {
-        	return (List<Object>) this.content;
     }
 }

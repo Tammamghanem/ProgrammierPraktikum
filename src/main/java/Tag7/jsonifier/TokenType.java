@@ -4,7 +4,6 @@ public enum TokenType {
 	IDENTIFIER,
 	SHAPETYPE,
 	NUMBER,
-	BOOLEAN,
 	LINEBREAK,
 	KEYWORD,
 	CHARSPECIAL,
@@ -12,7 +11,5 @@ public enum TokenType {
 	LABEL,
 	RGBA,
 	UNKNOWN,
-	DRAW,
-	VAR_DECLARATION,
-	ARITHMETIC_OPERATOR;
+	;
 }

@@ -1,24 +1,28 @@
 package Tag7.jsonifier;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 public class Main {
+	private static final String FILEPATH = "C:\\Users\\tamma\\Desktop\\";
+	private static final String FILENAME = "input.txt";
 
 	public static void main(String[] args) throws URISyntaxException, IOException {
 		Tokenizer translator = new Tokenizer();
-		String data =
-				"var lineColor = #000000ff" +
-						"var degree = 0" +
-						"draw circle lineColor #00ffffaa 2 20 20 10 20 degree" +
-						"var degree = degree + 90" +
-						"draw triangle lineColor #f0daaaaa 2 20 20 10 20 degree" +
-						"draw quad lineColor #00ffffaa 2 20 20 10 20 degree"
-				;
+		String data = "";
+		BufferedReader reader = new BufferedReader(new FileReader(FILEPATH + FILENAME));
+		String line;
+		while((line = reader.readLine()) != null){
+			data += line + "\n";
+		}
 	    ArrayList<Token> tokenlist = translator.tokenizeProgram(data);
-
-
-	    System.out.println(tokenlist);
+		Interpreter interpreter = new Interpreter();
+		interpreter.interpret(tokenlist);
+		String json = interpreter.getShape().toJson();
+		BufferedWriter writer = new BufferedWriter(new FileWriter(FILEPATH + "output.json"));
+		writer.write(json);
+		writer.flush();
+		writer.close();
 	}
 }

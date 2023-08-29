@@ -1,3 +1,7 @@
-draw circle #000000ff #00ffffaa 2 20 20 10 20 0
-draw triangle #000000ff #f0daaaaa 2 20 20 10 20 90
-draw quad #000000ff #00ffffaa 2 20 20 10 20 90
+var lineColor = #000000ff
+var bool = 1 < 2
+var degree = 0
+var degree = degree + 90
+draw circle lineColor #f0daaaaa 2 40 20 40 40 degree
+draw triangle lineColor #f0daaaaa 2 40 20 10 20 degree
+draw quad lineColor #00ffffaa 2 20 20 5 20 degree
