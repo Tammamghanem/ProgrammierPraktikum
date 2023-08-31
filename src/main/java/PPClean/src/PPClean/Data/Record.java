@@ -33,8 +33,14 @@ public class Record {
         StringBuilder key = new StringBuilder();
         // BEGIN SOLUTION
 
-
-
+        for (int i = 0; i < keyComponents.length; i++) {
+            int n = keyComponents[i];
+            if (n > 0) {
+                String value = this.content.get(i);
+                value = value.replaceAll("\\s+","");
+                key.append(value.substring(0,Math.min(n,value.length())));
+            }
+        }
         // END SOLUTION
         this.key = key.toString();
     }

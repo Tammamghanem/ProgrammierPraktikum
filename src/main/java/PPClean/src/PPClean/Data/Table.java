@@ -125,6 +125,9 @@ public class Table {
         // BEGIN SOLUTION
 
 
+        this.data.sort(Comparator.comparing(Record::getKey));
+
+
 
         // END SOLUTION
     }

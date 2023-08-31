@@ -6,6 +6,7 @@ package PPClean.src.PPClean.Data;
 public class Duplicate {
     private Record record1;
     private Record record2;
+    private double similarity;
 
     /**
      * @param record1 Record duplicate to record2
@@ -14,6 +15,12 @@ public class Duplicate {
     public Duplicate(Record record1, Record record2) {
         this.record1 = record1;
         this.record2 = record2;
+    }
+
+    public Duplicate(Record record1, Record record2, double similarity) {
+        this.record1 = record1;
+        this.record2 = record2;
+        this.similarity = similarity;
     }
 
     public Record getRecord1() {

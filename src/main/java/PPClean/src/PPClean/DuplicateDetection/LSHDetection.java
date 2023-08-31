@@ -54,10 +54,31 @@ public class LSHDetection implements DuplicateDetection {
     private void calculateTokens(Table table) {
         // BEGIN SOLUTION
 
+        // Tokenize
+        tokenUniverse = new ArrayList<>();
+        for (Record r : table.getData()) {
+            String record = r.toString();
+            for (int i = 0; i < record.length() - tokenSize + 1; i++) {
+                String token = record.substring(i, i + tokenSize);
+                if (!tokenUniverse.contains(token)) {
+                    tokenUniverse.add(token);
+                }
+            }
+        }
+        // Token Matrix
+        tokenMatrix = new boolean[tokenUniverse.size()][table.getData().size()];
+        for (int i = 0; i < tokenUniverse.size(); i++) {
+            for (int j = 0; j < table.getData().size(); j++) {
+                Record r = table.getData().get(j);
+                String record = table.getData().get(j).toString();
+                tokenMatrix[i][j] = record.contains(tokenUniverse.get(i));
+            }
+        }
 
 
         // END SOLUTION
-    }
+            }
+
 
     /**
      * Calculates {@link LSHDetection#signatureMatrix}: a matrix with {@link LSHDetection#numMinHashs} many rows
@@ -68,6 +89,21 @@ public class LSHDetection implements DuplicateDetection {
      */
     private void calculateMinHashes(Table table) {
         // BEGIN SOLUTION
+
+        signatureMatrix = new int[numMinHashs][table.getData().size()];
+        boolean[][] shuffledMatrix = Helper.shuffleMatrixRows(tokenMatrix);
+
+        for (int i = 0; i < numMinHashs; i++) {
+            for (int j = 0; j < table.getData().size(); j++) {
+                int k = 0;
+                while (!shuffledMatrix[k][j]) {
+                    k++;
+                }
+                signatureMatrix[i][j] = k;
+            }
+            shuffledMatrix = Helper.shuffleMatrixRows(shuffledMatrix);
+        }
+
 
 
 
@@ -89,6 +125,30 @@ public class LSHDetection implements DuplicateDetection {
      */
     private void calculateHashBuckets() {
         // BEGIN SOLUTION
+        LSH = new ArrayList<>(numBands);
+
+        int rowsPerBand = numMinHashs / numBands;
+
+        for (int i = 0; i < numBands; i++) {
+            Hashtable<Integer, List<Integer>> hashTable = new Hashtable<>();
+
+            for (int j = 0; j < signatureMatrix[0].length; j++) {
+                int[] bandHashes = new int[rowsPerBand];
+                for (int k = 0; k < rowsPerBand; k++) {
+                    bandHashes[k] = signatureMatrix[i * rowsPerBand + k][j];
+                }
+
+                int hashValue = hash(bandHashes);
+
+                if (!hashTable.containsKey(hashValue)) {
+                    hashTable.put(hashValue, new ArrayList<>());
+                }
+                hashTable.get(hashValue).add(j);
+            }
+
+            LSH.add(hashTable);
+        }
+
 
 
 
@@ -111,6 +171,22 @@ public class LSHDetection implements DuplicateDetection {
         calculateMinHashes(table);
         calculateHashBuckets();
         // BEGIN SOLUTION
+
+        for (Hashtable<Integer,List<Integer>> hashTable : LSH) {
+            for (List<Integer> bucket: hashTable.values()){
+                for (int i = 0; i < bucket.size(); i++) {
+                    for (int j = i + 1; j < bucket.size(); j++) {
+                        Record r1 = table.getData().get(bucket.get(i));
+                        Record r2 = table.getData().get(bucket.get(j));
+                        if (recSim.compare(r1, r2) >= threshold) {
+                            duplicates.add(new Duplicate(r1, r2));
+                        }
+                        numComparisons++;
+                    }
+                }
+            }
+        }
+
 
 
 

@@ -24,8 +24,9 @@ public class Helper {
      * 3	4
      * After the header line, all lines represent a Record pair forming a correct Duplicate
      * The Duplicates are re-mapped to Records via the referenceTable (using ID as a position index)
-     * @param pathToFile Absolute or relative path to the ground truth data
-     * @param dataSeparator Separator between data points (e.g., comma for CSV)
+     *
+     * @param pathToFile     Absolute or relative path to the ground truth data
+     * @param dataSeparator  Separator between data points (e.g., comma for CSV)
      * @param referenceTable Table for re-mapping Record IDs to Record objects
      * @return Set of Duplicates read from file
      */
@@ -38,8 +39,8 @@ public class Helper {
             String line = null;
             while ((line = Reader.readLine()) != null) {
                 List<String> duplicateIDs = Arrays.asList(line.split(dataSeparator));
-                int duplicateID1 = Integer.parseInt(duplicateIDs.get(0))-1;
-                int duplicateID2 = Integer.parseInt(duplicateIDs.get(1))-1;
+                int duplicateID1 = Integer.parseInt(duplicateIDs.get(0)) - 1;
+                int duplicateID2 = Integer.parseInt(duplicateIDs.get(1)) - 1;
                 Record r1 = referenceRecords.get(duplicateID1);
                 Record r2 = referenceRecords.get(duplicateID2);
                 duplicates.add(new Duplicate(r1, r2));
@@ -60,6 +61,7 @@ public class Helper {
 
     /**
      * Checks if x is greater than y by comparing them character-wise
+     *
      * @param x
      * @param y
      * @return true if x > y (character-wise), else false
@@ -79,19 +81,18 @@ public class Helper {
         return false; // x is a real substring of y
     }
 
-    public static void shuffleMatrixRows(boolean[][] matrix)
-    {
+    public static boolean[][] shuffleMatrixRows(boolean[][] matrix) {
         int index;
         Random random = new Random();
-        for (int i = matrix.length - 1; i > 0; i--)
-        {
+        for (int i = matrix.length - 1; i > 0; i--) {
             index = random.nextInt(i + 1);
-            if (index != i)
-            {
+            if (index != i) {
                 boolean[] array = matrix[index];
                 matrix[index] = matrix[i];
                 matrix[i] = array;
             }
         }
+        return matrix;
     }
 }
+

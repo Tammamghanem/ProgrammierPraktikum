@@ -18,6 +18,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class Task1 {
 
+
+
     Table inputTable = TableFactory.getDefaultInputTable();
     Set<Duplicate> groundTruth = Helper.readDuplicatesFromDefaultGT();
     Performance performance = Performance.initInstance(groundTruth);
